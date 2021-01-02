@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 0;        /* border pixel of windows */
+static const unsigned int borderpx  = 4;        /* border pixel of windows */
 static const int gappx 		    = 32;	/* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
@@ -16,11 +16,14 @@ static const char col_gray1[]       = "#21242B";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#BBC2CF";
 static const char col_gray4[]       = "#1B2229";
-static const char col_cyan[]        = "#51AFEF";
+static const char col_cyan[]        = "#0088C5";
+static const char col_white[]	    = "#FFFFFF";
+static const char col_black[]	    = "#010203";
+static const char col_black2[]	    = "#292929";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+	[SchemeNorm] = { col_white, col_black, col_gray2 },
+	[SchemeSel]  = { col_white, col_black2,  col_white },
 };
 
 /* tagging */
@@ -75,6 +78,9 @@ static const char *vifmcmd[]    = { "st", "-e", "vifm", NULL };
 static const char *screenshotcmd[]    = { "/usr/bin/flameshot", "gui", NULL };
 static const char *colorpickercmd[]	= { "/home/niklas/.local/bin/colorpicker.sh", NULL };
 static const char *emoji_dmenucmd[]	= { "/home/niklas/.local/bin/emojenu", NULL };
+static const char *mutecmd[] 		= { "amixer", "-q", "set", "Master", "toggle", NULL };
+static const char *voldowncmd[] 	= { "amixer", "-q", "set", "Master", "5%-", NULL };
+static const char *volupcmd[] 	= { "amixer", "-q", "set", "Master", "5%+", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -84,6 +90,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_e,      spawn,          {.v = emoji_dmenucmd } },
 	{ MODKEY|ShiftMask,	        XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,       	        XK_x,      spawn,          {.v = vifmcmd } },
+	{ MODKEY,			XK_F10,	   spawn,	   {.v = mutecmd } },
+	{ MODKEY,			XK_F11,	   spawn,	   {.v = voldowncmd } },
+	{ MODKEY,			XK_F12,	   spawn,	   {.v = volupcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -112,7 +121,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_p,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,			XK_u,	   setlayout,	   {.v = &layouts[3]} },
 	{ MODKEY,			XK_o,      setlayout,      {.v = &layouts[4]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
@@ -123,6 +132,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} }, 
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
@@ -132,7 +142,6 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	/* { MODKEY|ShiftMask,             XK_q,      quit,           {0} }, */
 };
 
 /* button definitions */
